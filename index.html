@@ -43,7 +43,7 @@
 
 	<meta itemprop="name" content="Al">
 	<meta itemprop="description" content="Repository command runner and Bazel configuration rules">
-	<meta itemprop="wordCount" content="283">
+	<meta itemprop="wordCount" content="40">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Al">
 	<meta name="twitter:description" content="Repository command runner and Bazel configuration rules">
@@ -138,34 +138,30 @@
     <div class="container td-content landing-content">
       
       <p class="lead">Repository command runner and Bazel configuration rules</p>
-       <p><code>al</code> runs repository commands with configured plugins and environment values.
-It provides the command-line tool and Bazel rules used to package and execute
-those configurations.</p>
-<p><code>al run</code> starts selected plugins, passes their environment to a command, and
-keeps plugin resources available until that command exits. On cancellation it
-asks the command to terminate and waits up to ten seconds before killing it.
-Plugin shutdown then drains requests, releases resources in reverse registration
-order, and waits for plugin exit. Startup failure cancels sibling starts and
-rolls back partially initialized resources. Cleanup errors fail the invocation.</p>
-<p>The injector creates secret files with owner-only permissions and removes them
-after consumers stop. Vault stores revoke AppRole tokens they issue; failed
-AppRole login attempts destroy their unused single-use SecretID. The role&rsquo;s
-bootstrap policy must permit <code>secret-id-accessor/destroy</code>, as declared by
-<code>projects/tf_modules/vault_approle</code>. The user&rsquo;s existing token-helper credential
-is never erased or revoked. Secret inputs and remote response bodies are omitted
-from diagnostic messages. OIDC authorization uses the configured Vault HTTPS
-origin and TLS transport, rejecting alternate origins and redirects.
-Explicit config dumps still contain the requested configuration; file outputs
-use owner-only permissions and truncate previous contents.</p>
-<p><code>no_auth</code> prevents AL&rsquo;s Vault client from loading credentials. For environment
-injection it clears inherited <code>VAULT_TOKEN</code>; it does not sandbox the command or
-prevent a command from independently reading the user&rsquo;s token helper. Plugins
-and invoked commands remain trusted programs with the user&rsquo;s filesystem access.</p>
-<p>Cleanup is observable best effort, not secure erasure. Memory copies are not
-zeroized. Forced termination, host failure, unresponsive cleanup code, or an
-unavailable service can prevent deletion or revocation. Subprocess signaling
-targets direct children, not arbitrary descendants. Credential expiry remains
-a fallback; service-specific logout requirements are documented with each plugin.</p>
+       <p>AL is a command runner that prepares credentials and environment variables
+through plugins, runs your command, and cleans up afterward. Its Bazel rules
+package commands with their configuration and required plugins.</p>
+<h2 id="links">Links</h2>
+<ul>
+<li><a
+  href="https://github.com/alwaldend/src/tree/master/projects/al"
+  
+  >Source code</a
+>
+</li>
+<li><a
+  href="https://alwaldend.com/docs/projects/al/rules/"
+  
+  >Bazel rules</a
+>
+</li>
+<li><a
+  href="https://alwaldend.com/docs/projects/al/docs/"
+  
+  >Command and plugin lifecycle</a
+>
+</li>
+</ul>
 
     </div>
   </div>
